@@ -16,6 +16,7 @@ import com.nnk.springboot.services.rating.RatingService;
 
 @Controller
 public class RatingController {
+
 	// TODO: Inject Rating service
 	@Autowired
 	RatingService ratingService;

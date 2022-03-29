@@ -50,4 +50,9 @@ public class UserDTO {
 				&& Objects.equals(username, other.username);
 	}
 
+	@Override
+	public String toString() {
+		return "UserDTO [username=" + username + ", password=" + password + ", fullname=" + fullname + "]";
+	}
+
 }
