@@ -3,16 +3,18 @@ package com.nnk.springboot.services.rating;
 import java.util.List;
 import java.util.Optional;
 
-import com.nnk.springboot.model.Rating;
+import com.nnk.springboot.dto.RatingDTO;
 
 public interface RatingService {
 
-	public List<Rating> findAllRatings();
+	public List<RatingDTO> findAllRatings();
 
-	public Rating updateRating(Rating rating);
+	public RatingDTO updateRating(RatingDTO rating);
 
-	public Optional<Rating> findById(Integer id);
+	public Optional<RatingDTO> findById(Integer id);
 
-	public void deleteRating(Rating rating);
+	public void deleteRating(RatingDTO rating);
+
+	public RatingDTO createRating(RatingDTO ratingDTO);
 
 }

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nnk.springboot.dto.RatingDTO;
 import com.nnk.springboot.model.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 
@@ -17,30 +18,45 @@ public class RatingSeviceImpl implements RatingService {
 	@Autowired
 	RatingRepository ratingRepository;
 
-	private static final Logger logger = LogManager.getLogger("BidListService");
+	private static final Logger logger = LogManager.getLogger("RatingService");
 
 	@Override
-	public List<Rating> findAllRatings() {
+	public List<RatingDTO> findAllRatings() {
 		logger.info("findallRatings called");
-		return ratingRepository.findAll();
+		List<Rating> ratingList = ratingRepository.findAll();
+		List<RatingDTO> ratingListDTO = ratingList.stream().map(r -> new RatingDTO(r)).toList();
+		return ratingListDTO;
 	}
 
 	@Override
-	public Rating updateRating(Rating rating) {
-		logger.info("updateRating called on " + rating.toString());
-		return ratingRepository.save(rating);
+	public RatingDTO updateRating(RatingDTO ratingDTO) {
+		logger.info("updateRating called on " + ratingDTO.toString());
+		Rating rating = ratingRepository.getById(ratingDTO.getId());
+		rating.update(ratingDTO);
+		ratingRepository.save(rating);
+		return ratingDTO;
 	}
 
 	@Override
-	public Optional<Rating> findById(Integer id) {
+	public Optional<RatingDTO> findById(Integer id) {
 		logger.info("findById called with id : " + id);
-		return ratingRepository.findById(id);
+		Optional<Rating> rating = ratingRepository.findById(id);
+		return rating.map(r -> new RatingDTO(r));
 	}
 
 	@Override
-	public void deleteRating(Rating rating) {
+	public void deleteRating(RatingDTO rating) {
 		logger.info("deleteRating called on " + rating.toString());
-		ratingRepository.delete(rating);
+		ratingRepository.deleteById(rating.getId());
 
+	}
+
+	@Override
+	public RatingDTO createRating(RatingDTO ratingDTO) {
+		Rating rating = new Rating();
+		rating.update(ratingDTO);
+		ratingRepository.save(rating);
+		ratingDTO.setId(rating.getId());
+		return ratingDTO;
 	}
 }

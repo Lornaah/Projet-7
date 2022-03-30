@@ -1,5 +1,6 @@
 package com.nnk.springboot.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,13 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.nnk.springboot.dto.BidListDTO;
+
 @Entity
 @Table(name = "bidlist")
 public class BidList {
 	@Id
 	@NotNull
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int BidListId;
+	private int bidListId;
 	@NotNull
 	private String account;
 	@NotNull
@@ -25,57 +28,48 @@ public class BidList {
 	private double bid;
 	private double ask;
 	private String benchmark;
-	private Date bidListDate;
+	private Timestamp bidListDate;
 	private String commentary;
 	private String security;
 	private String status;
 	private String trader;
 	private String book;
 	private String creationName;
-	private Date creationDate;
+	private Timestamp creationDate;
 	private String revisionName;
-	private Date revisionDate;
+	private Timestamp revisionDate;
 	private String dealName;
 	private String dealType;
 	private String sourceListId;
 	private String side;
 
-	public BidList(@NotNull String account, @NotNull String type, double bidQuantity, double askQuantity, double bid,
-			double ask, String benchmark, Date bidListDate, String commentary, String security, String status,
-			String trader, String book, String creationName, Date creation, String revisionName, Date revisionDate,
-			String dealName, String dealType, String sourceListId, String side) {
-		this.account = account;
-		this.type = type;
-		this.bidQuantity = bidQuantity;
-		this.askQuantity = askQuantity;
-		this.bid = bid;
-		this.ask = ask;
-		this.benchmark = benchmark;
-		this.bidListDate = bidListDate;
-		this.commentary = commentary;
-		this.security = security;
-		this.status = status;
-		this.trader = trader;
-		this.book = book;
-		this.creationName = creationName;
-		this.creationDate = new Date();
-		this.revisionName = creationName;
-		this.revisionDate = creationDate;
-		this.dealName = dealName;
-		this.dealType = dealType;
-		this.sourceListId = sourceListId;
-		this.side = side;
+	public void update(BidListDTO bid) {
+		this.account = bid.getAccount();
+		this.type = bid.getType();
+		this.bidQuantity = bid.getBidQuantity();
 	}
 
 	public BidList() {
 	}
 
+	public void setBidListDate(Timestamp bidListDate) {
+		this.bidListDate = bidListDate;
+	}
+
+	public void setCreationDate(Timestamp creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setRevisionDate(Timestamp revisionDate) {
+		this.revisionDate = revisionDate;
+	}
+
 	public int getBidListId() {
-		return BidListId;
+		return bidListId;
 	}
 
 	public void setBidListId(int bidListId) {
-		BidListId = bidListId;
+		this.bidListId = bidListId;
 	}
 
 	public String getAccount() {
@@ -138,10 +132,6 @@ public class BidList {
 		return bidListDate;
 	}
 
-	public void setBidListDate(Date bidListDate) {
-		this.bidListDate = bidListDate;
-	}
-
 	public String getCommentary() {
 		return commentary;
 	}
@@ -194,10 +184,6 @@ public class BidList {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	public String getRevisionName() {
 		return revisionName;
 	}
@@ -208,10 +194,6 @@ public class BidList {
 
 	public Date getRevisionDate() {
 		return revisionDate;
-	}
-
-	public void setRevisionDate(Date revisionDate) {
-		this.revisionDate = revisionDate;
 	}
 
 	public String getDealName() {
@@ -248,7 +230,7 @@ public class BidList {
 
 	@Override
 	public String toString() {
-		return "BidList [BidListId=" + BidListId + ", account=" + account + ", type=" + type + ", bidQuantity="
+		return "BidListDTO [bidListId=" + bidListId + ", account=" + account + ", type=" + type + ", bidQuantity="
 				+ bidQuantity + ", askQuantity=" + askQuantity + ", bid=" + bid + ", ask=" + ask + ", benchmark="
 				+ benchmark + ", bidListDate=" + bidListDate + ", commentary=" + commentary + ", security=" + security
 				+ ", status=" + status + ", trader=" + trader + ", book=" + book + ", creationName=" + creationName

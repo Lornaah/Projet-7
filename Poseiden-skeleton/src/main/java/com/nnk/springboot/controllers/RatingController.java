@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.model.Rating;
+import com.nnk.springboot.dto.RatingDTO;
 import com.nnk.springboot.services.rating.RatingService;
 
 @Controller
@@ -27,40 +27,40 @@ public class RatingController {
 	}
 
 	@GetMapping("/rating/add")
-	public String addRatingForm(Rating rating) {
+	public String addRatingForm(RatingDTO ratingDTO) {
 		return "rating/add";
 	}
 
 	@PostMapping("/rating/validate")
-	public String validate(@Valid Rating rating, BindingResult result, Model model) {
+	public String validate(@Valid RatingDTO ratingDTO, BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "rating/add";
 
-		model.addAttribute("rating", ratingService.updateRating(rating));
+		model.addAttribute("rating", ratingService.createRating(ratingDTO));
 		return "redirect:/rating/list";
 	}
 
 	@GetMapping("/rating/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		Rating rating = ratingService.findById(id)
+		RatingDTO rating = ratingService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid update Id : " + id));
 		model.addAttribute("rating", rating);
 		return "rating/update";
 	}
 
 	@PostMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
+	public String updateRating(@PathVariable("id") Integer id, @Valid RatingDTO ratingDTO, BindingResult result,
 			Model model) {
 		if (result.hasErrors())
 			return "rating/update";
-		ratingService.updateRating(rating);
+		ratingService.updateRating(ratingDTO);
 		model.addAttribute("rating", ratingService.findAllRatings());
 		return "redirect:/rating/list";
 	}
 
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
-		Rating rating = ratingService.findById(id)
+		RatingDTO rating = ratingService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid update Id : " + id));
 		ratingService.deleteRating(rating);
 		model.addAttribute("rating", ratingService.findAllRatings());

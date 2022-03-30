@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nnk.springboot.dto.CurvePointDTO;
 import com.nnk.springboot.model.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 
@@ -20,27 +21,42 @@ public class CurvePointServiceImpl implements CurvePointService {
 	private static final Logger logger = LogManager.getLogger("BidListService");
 
 	@Override
-	public List<CurvePoint> findAllCurves() {
+	public List<CurvePointDTO> findAllCurves() {
 		logger.info("findAllCurves called");
-		return curvePointRepository.findAll();
+		List<CurvePoint> curveList = curvePointRepository.findAll();
+		List<CurvePointDTO> curvelistDTO = curveList.stream().map(c -> new CurvePointDTO(c)).toList();
+		return curvelistDTO;
 	}
 
 	@Override
-	public CurvePoint updateCurve(CurvePoint curvePoint) {
+	public CurvePointDTO updateCurve(CurvePointDTO curvePoint) {
 		logger.info("findAllCurves called");
-		return curvePointRepository.save(curvePoint);
+		CurvePoint curve = curvePointRepository.getById(curvePoint.getId());
+		curve.update(curvePoint);
+		curvePointRepository.save(curve);
+		return curvePoint;
 	}
 
 	@Override
-	public Optional<CurvePoint> findById(Integer id) {
+	public Optional<CurvePointDTO> findById(Integer id) {
 		logger.info("findAllCurves called with id : " + id);
-		return curvePointRepository.findById(id);
+		Optional<CurvePoint> curve = curvePointRepository.findById(id);
+		return curve.map(c -> new CurvePointDTO(c));
 	}
 
 	@Override
-	public void deleteCurve(CurvePoint curvePoint) {
+	public void deleteCurve(CurvePointDTO curvePoint) {
 		logger.info("deleteCurve called on " + curvePoint.toString());
-		curvePointRepository.delete(curvePoint);
+		curvePointRepository.deleteById(curvePoint.getId());
+	}
+
+	@Override
+	public CurvePointDTO createCurve(CurvePointDTO curvePointDTO) {
+		CurvePoint curve = new CurvePoint();
+		curve.update(curvePointDTO);
+		curvePointRepository.save(curve);
+		curvePointDTO.setId(curve.getId());
+		return curvePointDTO;
 	}
 
 }

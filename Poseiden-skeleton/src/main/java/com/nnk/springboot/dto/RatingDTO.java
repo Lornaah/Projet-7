@@ -1,25 +1,27 @@
-package com.nnk.springboot.model;
+package com.nnk.springboot.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.nnk.springboot.model.Rating;
 
-import com.nnk.springboot.dto.RatingDTO;
+public class RatingDTO {
 
-@Entity
-@Table(name = "rating")
-public class Rating {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String moodysRating;
 	private String sandPRating;
 	private String fitchRating;
 	private Integer orderNumber;
 
-	public void update(RatingDTO rating) {
+	public RatingDTO() {
+	}
+
+	public RatingDTO(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
+		this.moodysRating = moodysRating;
+		this.sandPRating = sandPRating;
+		this.fitchRating = fitchRating;
+		this.orderNumber = orderNumber;
+	}
+
+	public RatingDTO(Rating rating) {
+		this.id = rating.getId();
 		this.moodysRating = rating.getMoodysRating();
 		this.sandPRating = rating.getSandPRating();
 		this.fitchRating = rating.getFitchRating();
@@ -68,8 +70,8 @@ public class Rating {
 
 	@Override
 	public String toString() {
-		return "Rating [id=" + id + ", moodysRating=" + moodysRating + ", sandPRating=" + sandPRating + ", fitchRating="
-				+ fitchRating + ", orderNumber=" + orderNumber + "]";
+		return "RatingDTO [id=" + id + ", moodysRating=" + moodysRating + ", sandPRating=" + sandPRating
+				+ ", fitchRating=" + fitchRating + ", orderNumber=" + orderNumber + "]";
 	}
 
 }

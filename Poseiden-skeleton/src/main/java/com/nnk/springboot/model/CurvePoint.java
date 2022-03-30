@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.nnk.springboot.dto.CurvePointDTO;
+
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
@@ -19,6 +21,12 @@ public class CurvePoint {
 	private Double term;
 	private Double value;
 	private Timestamp creationDate;
+
+	public void update(CurvePointDTO curve) {
+		this.curveId = curve.getCurveId();
+		this.term = curve.getTerm();
+		this.value = curve.getValue();
+	}
 
 	public Integer getId() {
 		return id;

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nnk.springboot.dto.BidListDTO;
 import com.nnk.springboot.model.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
@@ -20,27 +21,43 @@ public class BidListServiceImpl implements BidListService {
 	private static final Logger logger = LogManager.getLogger("BidListService");
 
 	@Override
-	public List<BidList> findAllBids() {
+	public List<BidListDTO> findAllBids() {
 		logger.info("findAllBids called");
-		return bidListRepository.findAll();
+		List<BidList> bidList = bidListRepository.findAll();
+		List<BidListDTO> bidListDTO = bidList.stream().map(b -> new BidListDTO(b)).toList();
+		return bidListDTO;
 	}
 
 	@Override
-	public BidList updateBid(BidList bid) {
+	public BidListDTO updateBid(BidListDTO bid) {
 		logger.info("updateBid called on the bid : " + bid.toString());
-		return bidListRepository.save(bid);
+		BidList bidList = bidListRepository.getById(bid.getBidListId());
+		bidList.update(bid);
+		bidListRepository.save(bidList);
+		return bid;
 	}
 
 	@Override
-	public Optional<BidList> findById(Integer id) {
+	public Optional<BidListDTO> findById(Integer id) {
 		logger.info("findById called with Id : " + id);
-		return bidListRepository.findById(id);
+		Optional<BidList> bid = bidListRepository.findById(id);
+		return bid.map(b -> new BidListDTO(b));
 	}
 
 	@Override
-	public void deleteBid(BidList bidList) {
+	public void deleteBid(BidListDTO bidList) {
 		logger.info("deleteBid called on " + bidList.toString());
 		bidListRepository.deleteById(bidList.getBidListId());
+	}
+
+	@Override
+	public BidListDTO createBid(BidListDTO bidListDTO) {
+		BidList bid = new BidList();
+		bid.update(bidListDTO);
+		bidListRepository.save(bid);
+		bidListDTO.setBidListId(bid.getBidListId());
+
+		return bidListDTO;
 	}
 
 }

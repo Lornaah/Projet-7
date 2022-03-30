@@ -3,16 +3,18 @@ package com.nnk.springboot.services.bid;
 import java.util.List;
 import java.util.Optional;
 
-import com.nnk.springboot.model.BidList;
+import com.nnk.springboot.dto.BidListDTO;
 
 public interface BidListService {
 
-	public List<BidList> findAllBids();
+	public List<BidListDTO> findAllBids();
 
-	public BidList updateBid(BidList bid);
+	public BidListDTO updateBid(BidListDTO bid);
 
-	public Optional<BidList> findById(Integer id);
+	public Optional<BidListDTO> findById(Integer id);
 
-	public void deleteBid(BidList bidList);
+	public void deleteBid(BidListDTO bidList);
+
+	public BidListDTO createBid(BidListDTO bidListDTO);
 
 }
