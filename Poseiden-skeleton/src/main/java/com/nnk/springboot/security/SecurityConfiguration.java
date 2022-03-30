@@ -25,10 +25,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("*").permitAll();
-//		.antMatchers().permitAll();
-//				.antMatchers("/signup", "/newUser").anonymous().anyRequest().authenticated().and().formLogin()
-//				.loginPage("/log").defaultSuccessUrl("/transfer", true).failureUrl("/error").permitAll().and().logout()
+		http.csrf().disable().authorizeRequests().antMatchers("/css/*.css", "/image/*").permitAll()
+				.antMatchers("/signup", "/newUser").anonymous().anyRequest().authenticated().and().formLogin()
+				.loginPage("/log").defaultSuccessUrl("/user/list", true).failureUrl("/403").permitAll();
+//				.and().logout()
 //				.logoutUrl("/disconnected").logoutSuccessUrl("/log").permitAll();
 	}
 

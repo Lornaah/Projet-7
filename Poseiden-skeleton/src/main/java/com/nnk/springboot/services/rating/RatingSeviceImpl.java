@@ -21,28 +21,24 @@ public class RatingSeviceImpl implements RatingService {
 
 	@Override
 	public List<Rating> findAllRatings() {
-		// TODO Auto-generated method stub
 		logger.info("findallRatings called");
 		return ratingRepository.findAll();
 	}
 
 	@Override
 	public Rating updateRating(Rating rating) {
-		// TODO Auto-generated method stub
 		logger.info("updateRating called on " + rating.toString());
 		return ratingRepository.save(rating);
 	}
 
 	@Override
 	public Optional<Rating> findById(Integer id) {
-		// TODO Auto-generated method stub
 		logger.info("findById called with id : " + id);
 		return ratingRepository.findById(id);
 	}
 
 	@Override
 	public void deleteRating(Rating rating) {
-		// TODO Auto-generated method stub
 		logger.info("deleteRating called on " + rating.toString());
 		ratingRepository.delete(rating);
 

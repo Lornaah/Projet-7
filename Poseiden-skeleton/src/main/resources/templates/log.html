@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Poseidon</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <main>
+        <div class="py-5">
+            <div class="" role="document">
+                <div>
+                    <h1 class="display-3 fs-1 text-center">Log in Screen</h1>
+                    <h2 class="mt-5 mb-4 display-5 fw-bold fs-5">Login with UserName and Password</h2>
+                    <form th:action="@{/log}" method="post">
+                        <div class="row mb-3">
+                            <label for="inputEmail" class="col-sm-2 col-form-label">User :</label>
+                            <div class="col-sm-7">
+                                <input type="email" name="username" class="form-control" id="inputEmail3">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPassword" class="col-sm-2 col-form-label text-nowrap">Password :</label>
+                            <div class="col-sm-7">
+                                <input type="password" name="password" class="form-control" id="inputPassword3">
+                            </div>
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-secondary">Login</button>
+                </form>
+                <div class="pt-5 d-flex flex-row-reverse mt-5">
+                    <img width="150px" th:src="@{/image/logo.jpg}" class="img-fluid ">
+                </div>
+            </div> 
+        </div>
+        </div>
+    </main>
+    
+</body>
