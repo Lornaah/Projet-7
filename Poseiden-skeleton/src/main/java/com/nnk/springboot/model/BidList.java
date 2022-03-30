@@ -1,6 +1,6 @@
 package com.nnk.springboot.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +39,36 @@ public class BidList {
 	private String dealType;
 	private String sourceListId;
 	private String side;
+
+	public BidList(@NotNull String account, @NotNull String type, double bidQuantity, double askQuantity, double bid,
+			double ask, String benchmark, Date bidListDate, String commentary, String security, String status,
+			String trader, String book, String creationName, Date creation, String revisionName, Date revisionDate,
+			String dealName, String dealType, String sourceListId, String side) {
+		this.account = account;
+		this.type = type;
+		this.bidQuantity = bidQuantity;
+		this.askQuantity = askQuantity;
+		this.bid = bid;
+		this.ask = ask;
+		this.benchmark = benchmark;
+		this.bidListDate = bidListDate;
+		this.commentary = commentary;
+		this.security = security;
+		this.status = status;
+		this.trader = trader;
+		this.book = book;
+		this.creationName = creationName;
+		this.creationDate = new Date();
+		this.revisionName = creationName;
+		this.revisionDate = creationDate;
+		this.dealName = dealName;
+		this.dealType = dealType;
+		this.sourceListId = sourceListId;
+		this.side = side;
+	}
+
+	public BidList() {
+	}
 
 	public int getBidListId() {
 		return BidListId;
