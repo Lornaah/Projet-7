@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.nnk.springboot.dto.TradeDTO;
+
 @Entity
 @Table(name = "trade")
 public class Trade {
@@ -34,6 +36,12 @@ public class Trade {
 	private String dealType;
 	private String sourceListId;
 	private String side;
+
+	public void update(TradeDTO trade) {
+		this.account = trade.getAccount();
+		this.type = trade.getType();
+		this.buyQuantity = trade.getBuyQuantity();
+	}
 
 	public Integer getTradeId() {
 		return tradeId;

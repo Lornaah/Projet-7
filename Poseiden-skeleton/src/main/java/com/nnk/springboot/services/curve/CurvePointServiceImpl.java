@@ -18,7 +18,7 @@ public class CurvePointServiceImpl implements CurvePointService {
 	@Autowired
 	CurvePointRepository curvePointRepository;
 
-	private static final Logger logger = LogManager.getLogger("BidListService");
+	private static final Logger logger = LogManager.getLogger("CurvePointService");
 
 	@Override
 	public List<CurvePointDTO> findAllCurves() {

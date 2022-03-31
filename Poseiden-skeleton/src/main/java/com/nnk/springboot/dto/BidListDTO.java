@@ -1,5 +1,7 @@
 package com.nnk.springboot.dto;
 
+import java.util.Objects;
+
 import com.nnk.springboot.model.BidList;
 
 public class BidListDTO {
@@ -61,6 +63,25 @@ public class BidListDTO {
 	public String toString() {
 		return "BidListDTO [bidListId=" + bidListId + ", account=" + account + ", type=" + type + ", bidQuantity="
 				+ bidQuantity + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(account, bidListId, bidQuantity, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BidListDTO other = (BidListDTO) obj;
+		return Objects.equals(account, other.account) && bidListId == other.bidListId
+				&& Double.doubleToLongBits(bidQuantity) == Double.doubleToLongBits(other.bidQuantity)
+				&& Objects.equals(type, other.type);
 	}
 
 }

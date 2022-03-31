@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.model.Trade;
+import com.nnk.springboot.dto.TradeDTO;
 import com.nnk.springboot.services.trade.TradeService;
 
 @Controller
@@ -26,28 +26,29 @@ public class TradeController {
 	}
 
 	@GetMapping("/trade/add")
-	public String addUser(Trade bid) {
+	public String addUser(TradeDTO trade) {
 		return "trade/add";
 	}
 
 	@PostMapping("/trade/validate")
-	public String validate(@Valid Trade trade, BindingResult result, Model model) {
+	public String validate(@Valid TradeDTO trade, BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "trade/add";
-		model.addAttribute("trade", tradeService.updateTrade(trade));
+		model.addAttribute("trade", tradeService.createTrade(trade));
 		return "redirect:/trade/list";
 	}
 
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		Trade trade = tradeService.findById(id)
+		TradeDTO trade = tradeService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid update Id : " + id));
 		model.addAttribute("trade", trade);
 		return "trade/update";
 	}
 
 	@PostMapping("/trade/update/{id}")
-	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+	public String updateTrade(@PathVariable("id") Integer id, @Valid TradeDTO trade, BindingResult result,
+			Model model) {
 		if (result.hasErrors())
 			return "trade/update";
 		tradeService.updateTrade(trade);
@@ -57,7 +58,7 @@ public class TradeController {
 
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		Trade trade = tradeService.findById(id)
+		TradeDTO trade = tradeService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid update Id : " + id));
 		tradeService.deleteTrade(trade);
 		model.addAttribute("trade", tradeService.findAllTrades());

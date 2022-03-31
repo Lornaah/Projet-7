@@ -14,10 +14,7 @@
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/ruleName/validate}" th:object="${ruleName}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to input the values of RuleName, there are 2 buttons: Save data and Cancel to the list RuleName
-			 -->
+		<form action="#" th:action="@{/ruleName/validate}" th:object="${ruleNameDTO}" method="post" class="form-horizontal" style="width: 100%">
 			 
 			 <div class="form-group">
 				<label for="fullname" class="col-sm-2 control-label">Name</label>

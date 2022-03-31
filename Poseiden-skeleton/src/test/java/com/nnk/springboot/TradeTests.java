@@ -1,44 +1,91 @@
 package com.nnk.springboot;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.dto.TradeDTO;
+import com.nnk.springboot.services.trade.TradeService;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class TradeTests {
 
-  @Autowired
-  private TradeRepository tradeRepository;
+	@Autowired
+	private TradeService tradeService;
 
-  @Test
-  public void tradeTest() {
-    //		Trade trade = new Trade("Trade Account", "Type");
-    //
-    //		// Save
-    //		trade = tradeRepository.save(trade);
-    //		Assert.assertNotNull(trade.getTradeId());
-    //		Assert.assertTrue(trade.getAccount().equals("Trade Account"));
-    //
-    //		// Update
-    //		trade.setAccount("Trade Account Update");
-    //		trade = tradeRepository.save(trade);
-    //		Assert.assertTrue(trade.getAccount().equals("Trade Account Update"));
-    //
-    //		// Find
-    //		List<Trade> listResult = tradeRepository.findAll();
-    //		Assert.assertTrue(listResult.size() > 0);
-    //
-    //		// Delete
-    //		Integer id = trade.getTradeId();
-    //		tradeRepository.delete(trade);
-    //		Optional<Trade> tradeList = tradeRepository.findById(id);
-    //		Assert.assertFalse(tradeList.isPresent());
-    Assert.assertTrue(true);
-  }
+	@Autowired
+	private ClearDB clearDB;
+
+	private TradeDTO tradeDTO;
+
+	@BeforeEach
+	public void beforeEach() {
+		clearDB.clearDB();
+		tradeDTO = new TradeDTO("Test", "Test", 10.00);
+	}
+
+	@Test
+	public void tradeCreateTest() {
+		// Arrange
+		tradeService.createTrade(tradeDTO);
+
+		// Act
+		Optional<TradeDTO> trade = tradeService.findById(tradeDTO.getTradeId());
+
+		// Assert
+		assertTrue(trade.isPresent());
+		assertNotNull(tradeDTO);
+	}
+
+	@Test
+	public void tradeUpdateTest() {
+		// Arrange
+		tradeService.createTrade(tradeDTO);
+		tradeDTO.setAccount("TestTest");
+
+		// Act
+		TradeDTO newTrade = tradeService.updateTrade(tradeDTO);
+
+		// Assert
+		assertTrue(newTrade.getAccount().equals("TestTest"));
+	}
+
+	@Test
+	public void tradeGetTest() {
+		// Arrange
+		tradeService.createTrade(tradeDTO);
+
+		// Act
+		List<TradeDTO> tradeList = tradeService.findAllTrades();
+
+		// Assert
+		assertFalse(tradeList.isEmpty());
+		assertTrue(tradeList.contains(tradeDTO));
+	}
+
+	@Test
+	public void tradeDeleteTest() {
+		// Arrange
+		tradeService.createTrade(tradeDTO);
+
+		// Act
+		List<TradeDTO> oldList = tradeService.findAllTrades();
+		tradeService.deleteTrade(tradeDTO);
+		List<TradeDTO> newList = tradeService.findAllTrades();
+
+		// Assert
+		assertTrue(oldList.size() - 1 == newList.size());
+		assertFalse(newList.contains(tradeDTO));
+	}
 }

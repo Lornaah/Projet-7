@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	private static final Logger logger = LogManager.getLogger("BidListService");
+	private static final Logger logger = LogManager.getLogger("UserService");
 
 	@Override
 	public User createUser(UserDTO userDTO) {

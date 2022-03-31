@@ -1,45 +1,93 @@
 package com.nnk.springboot;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.dto.RuleNameDTO;
+import com.nnk.springboot.services.ruleName.RuleNameService;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class RuleTests {
 
-  @Autowired
-  private RuleNameRepository ruleNameRepository;
+	@Autowired
+	private RuleNameService ruleNameService;
 
-  @Test
-  public void ruleTest() {
-    //		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
-    //
-    //		// Save
-    //		rule = ruleNameRepository.save(rule);
-    //		Assert.assertNotNull(rule.getId());
-    //		Assert.assertTrue(rule.getName().equals("Rule Name"));
-    //
-    //		// Update
-    //		rule.setName("Rule Name Update");
-    //		rule = ruleNameRepository.save(rule);
-    //		Assert.assertTrue(rule.getName().equals("Rule Name Update"));
-    //
-    //		// Find
-    //		List<RuleName> listResult = ruleNameRepository.findAll();
-    //		Assert.assertTrue(listResult.size() > 0);
-    //
-    //		// Delete
-    //		Integer id = rule.getId();
-    //		ruleNameRepository.delete(rule);
-    //		Optional<RuleName> ruleList = ruleNameRepository.findById(id);
-    //		Assert.assertFalse(ruleList.isPresent());
-    Assert.assertTrue(true);
+	@Autowired
+	private ClearDB clearDB;
 
-  }
+	private RuleNameDTO ruleNameDTO;
+
+	@BeforeEach
+	public void beforeEach() {
+		clearDB.clearDB();
+		ruleNameDTO = new RuleNameDTO("Test", "Test", "Test", "Test", "Test", "Test");
+	}
+
+	@Test
+	public void ruleCreateTest() {
+		// Arrange
+		ruleNameService.createRule(ruleNameDTO);
+
+		// Act
+		Optional<RuleNameDTO> rule = ruleNameService.findById(ruleNameDTO.getId());
+
+		// Assert
+		assertTrue(rule.isPresent());
+		assertNotNull(ruleNameDTO);
+
+	}
+
+	@Test
+	public void ruleUpdateTest() {
+		// Arrange
+		ruleNameService.createRule(ruleNameDTO);
+		ruleNameDTO.setDescription("TestTest");
+
+		// Act
+		RuleNameDTO newRule = ruleNameService.updateRuleName(ruleNameDTO);
+
+		// Assert
+		assertTrue(newRule.getDescription().equals("TestTest"));
+	}
+
+	@Test
+	public void ruleFindTest() {
+		// Arrange
+		ruleNameService.createRule(ruleNameDTO);
+
+		// Act
+		List<RuleNameDTO> ruleListDTO = ruleNameService.findAllRuleNames();
+
+		// Assert
+		assertFalse(ruleListDTO.isEmpty());
+		assertTrue(ruleListDTO.contains(ruleNameDTO));
+
+	}
+
+	@Test
+	public void ruleDeleteTest() {
+		// Arrange
+		ruleNameService.createRule(ruleNameDTO);
+
+		// Act
+		List<RuleNameDTO> oldRuleListDTO = ruleNameService.findAllRuleNames();
+		ruleNameService.deleteRuleName(ruleNameDTO);
+		List<RuleNameDTO> newRuleListDTO = ruleNameService.findAllRuleNames();
+
+		// Assert
+		assertTrue(oldRuleListDTO.size() - 1 == newRuleListDTO.size());
+		assertFalse(newRuleListDTO.contains(ruleNameDTO));
+	}
 }

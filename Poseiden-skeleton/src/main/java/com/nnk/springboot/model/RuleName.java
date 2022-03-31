@@ -6,18 +6,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.nnk.springboot.dto.RuleNameDTO;
+
 @Entity
 @Table(name = "rulename")
 public class RuleName {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private int id;
 	private String name;
 	private String description;
 	private String json;
 	private String template;
 	private String sqlStr;
 	private String sqlPart;
+
+	public void update(RuleNameDTO rule) {
+		this.name = rule.getName();
+		this.description = rule.getDescription();
+		this.json = rule.getDescription();
+		this.template = rule.getTemplate();
+		this.sqlStr = rule.getSqlStr();
+		this.sqlPart = rule.getSqlPart();
+	}
 
 	public Integer getId() {
 		return id;

@@ -3,15 +3,17 @@ package com.nnk.springboot.services.ruleName;
 import java.util.List;
 import java.util.Optional;
 
-import com.nnk.springboot.model.RuleName;
+import com.nnk.springboot.dto.RuleNameDTO;
 
 public interface RuleNameService {
 
-	public List<RuleName> findAllRuleNames();
+	public List<RuleNameDTO> findAllRuleNames();
 
-	public RuleName updateRuleName(RuleName ruleName);
+	public RuleNameDTO updateRuleName(RuleNameDTO ruleName);
 
-	public Optional<RuleName> findById(Integer id);
+	public Optional<RuleNameDTO> findById(int id);
 
-	public void deleteRuleName(RuleName ruleName);
+	public void deleteRuleName(RuleNameDTO ruleName);
+
+	public RuleNameDTO createRule(RuleNameDTO rule);
 }

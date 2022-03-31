@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nnk.springboot.dto.TradeDTO;
 import com.nnk.springboot.model.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
@@ -17,30 +18,45 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	TradeRepository tradeRepository;
 
-	private static final Logger logger = LogManager.getLogger("BidListService");
+	private static final Logger logger = LogManager.getLogger("TradeService");
 
 	@Override
-	public List<Trade> findAllTrades() {
+	public List<TradeDTO> findAllTrades() {
 		logger.info("findAllTrades called");
-		return tradeRepository.findAll();
+		List<Trade> tradeList = tradeRepository.findAll();
+		List<TradeDTO> tradeListDTO = tradeList.stream().map(t -> new TradeDTO(t)).toList();
+		return tradeListDTO;
 	}
 
 	@Override
-	public Trade updateTrade(Trade trade) {
-		logger.info("updateTrade called on " + trade.toString());
-		return tradeRepository.save(trade);
+	public TradeDTO updateTrade(TradeDTO tradeDTO) {
+		logger.info("updateTrade called on " + tradeDTO.toString());
+		Trade trade = tradeRepository.getById(tradeDTO.getTradeId());
+		trade.update(tradeDTO);
+		tradeRepository.save(trade);
+		return tradeDTO;
 	}
 
 	@Override
-	public Optional<Trade> findById(Integer id) {
+	public Optional<TradeDTO> findById(Integer id) {
 		logger.info("findById called with id : " + id);
-		return tradeRepository.findById(id);
+		Optional<Trade> trade = tradeRepository.findById(id);
+		return trade.map(t -> new TradeDTO(t));
 	}
 
 	@Override
-	public void deleteTrade(Trade trade) {
+	public void deleteTrade(TradeDTO trade) {
 		logger.info("deleteTrade called on " + trade.toString());
-		tradeRepository.delete(trade);
+		tradeRepository.deleteById(trade.getTradeId());
+	}
+
+	@Override
+	public TradeDTO createTrade(TradeDTO tradeDTO) {
+		Trade trade = new Trade();
+		trade.update(tradeDTO);
+		tradeRepository.save(trade);
+		tradeDTO.setTradeId(trade.getTradeId());
+		return tradeDTO;
 	}
 
 }

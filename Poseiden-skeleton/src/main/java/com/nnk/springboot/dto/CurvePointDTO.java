@@ -1,5 +1,7 @@
 package com.nnk.springboot.dto;
 
+import java.util.Objects;
+
 import com.nnk.springboot.model.CurvePoint;
 
 public class CurvePointDTO {
@@ -55,6 +57,24 @@ public class CurvePointDTO {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(curveId, id, term, value);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CurvePointDTO other = (CurvePointDTO) obj;
+		return Objects.equals(curveId, other.curveId) && Objects.equals(id, other.id)
+				&& Objects.equals(term, other.term) && Objects.equals(value, other.value);
 	}
 
 }

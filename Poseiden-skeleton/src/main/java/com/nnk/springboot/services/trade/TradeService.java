@@ -3,15 +3,17 @@ package com.nnk.springboot.services.trade;
 import java.util.List;
 import java.util.Optional;
 
-import com.nnk.springboot.model.Trade;
+import com.nnk.springboot.dto.TradeDTO;
 
 public interface TradeService {
 
-	public List<Trade> findAllTrades();
+	public List<TradeDTO> findAllTrades();
 
-	public Trade updateTrade(Trade trade);
+	public TradeDTO updateTrade(TradeDTO trade);
 
-	public Optional<Trade> findById(Integer id);
+	public Optional<TradeDTO> findById(Integer id);
 
-	public void deleteTrade(Trade trade);
+	public void deleteTrade(TradeDTO trade);
+
+	public TradeDTO createTrade(TradeDTO trade);
 }
