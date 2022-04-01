@@ -3,6 +3,8 @@ package com.nnk.springboot.services.curve;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class CurvePointServiceImpl implements CurvePointService {
 	}
 
 	@Override
+	@Transactional
 	public CurvePointDTO updateCurve(CurvePointDTO curvePoint) {
 		logger.info("findAllCurves called");
 		CurvePoint curve = curvePointRepository.getById(curvePoint.getId());

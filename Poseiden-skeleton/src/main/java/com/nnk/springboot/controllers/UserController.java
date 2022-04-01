@@ -47,14 +47,15 @@ public class UserController {
 
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		User user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		UserDTO user = userService.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		user.setPassword("");
 		model.addAttribute("user", user);
 		return "user/update";
 	}
 
 	@PostMapping("/user/update/{id}")
-	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
+	public String updateUser(@PathVariable("id") Integer id, @Valid UserDTO user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "user/update";
 		}
@@ -68,7 +69,8 @@ public class UserController {
 
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
-		User user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		UserDTO user = userService.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		userService.deleteUser(user);
 		model.addAttribute("users", userService.findAllUsers());
 		return "redirect:/user/list";

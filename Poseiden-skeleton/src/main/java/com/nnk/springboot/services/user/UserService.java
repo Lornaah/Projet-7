@@ -6,18 +6,17 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.nnk.springboot.dto.UserDTO;
-import com.nnk.springboot.model.User;
 
 public interface UserService extends UserDetailsService {
 
-	public User createUser(UserDTO userDTO);
+	public UserDTO createUser(UserDTO userDTO);
 
-	public List<User> findAllUsers();
+	public List<UserDTO> findAllUsers();
 
-	public User updateUser(User user);
+	public UserDTO updateUser(UserDTO user);
 
-	public Optional<User> findById(Integer id);
+	public Optional<UserDTO> findById(Integer id);
 
-	public void deleteUser(User user);
+	public void deleteUser(UserDTO user);
 
 }

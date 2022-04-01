@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import com.nnk.springboot.dto.RatingDTO;
 import com.nnk.springboot.services.rating.RatingService;
 
 @SpringBootTest
-@Transactional
 public class RatingTests {
 
 	@Autowired

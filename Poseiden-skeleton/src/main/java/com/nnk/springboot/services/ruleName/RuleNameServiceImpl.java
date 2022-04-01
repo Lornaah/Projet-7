@@ -3,6 +3,8 @@ package com.nnk.springboot.services.ruleName;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class RuleNameServiceImpl implements RuleNameService {
 	}
 
 	@Override
+	@Transactional
 	public RuleNameDTO updateRuleName(RuleNameDTO ruleNameDTO) {
 		logger.info("updateRuleName called on " + ruleNameDTO.toString());
 		RuleName ruleName = ruleNameRepository.getById(ruleNameDTO.getId());

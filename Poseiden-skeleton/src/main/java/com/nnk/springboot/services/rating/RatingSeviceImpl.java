@@ -3,6 +3,8 @@ package com.nnk.springboot.services.rating;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class RatingSeviceImpl implements RatingService {
 	}
 
 	@Override
+	@Transactional
 	public RatingDTO updateRating(RatingDTO ratingDTO) {
 		logger.info("updateRating called on " + ratingDTO.toString());
 		Rating rating = ratingRepository.getById(ratingDTO.getId());

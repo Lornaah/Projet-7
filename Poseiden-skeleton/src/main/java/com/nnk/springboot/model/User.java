@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.nnk.springboot.dto.UserDTO;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,6 +23,13 @@ public class User {
 	private String fullname;
 	@NotBlank(message = "Role is mandatory")
 	private String role;
+
+	public void update(UserDTO userDTO) {
+		this.username = userDTO.getUsername();
+		this.password = userDTO.getPassword();
+		this.fullname = userDTO.getFullname();
+		this.role = userDTO.getRole();
+	}
 
 	public User(String username, String password, String fullname) {
 		this.username = username;

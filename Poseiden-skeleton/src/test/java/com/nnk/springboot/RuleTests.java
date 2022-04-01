@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import com.nnk.springboot.dto.RuleNameDTO;
 import com.nnk.springboot.services.ruleName.RuleNameService;
 
 @SpringBootTest
-@Transactional
 public class RuleTests {
 
 	@Autowired

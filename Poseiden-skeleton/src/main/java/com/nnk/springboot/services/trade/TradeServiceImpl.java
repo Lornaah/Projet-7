@@ -3,6 +3,8 @@ package com.nnk.springboot.services.trade;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
+	@Transactional
 	public TradeDTO updateTrade(TradeDTO tradeDTO) {
 		logger.info("updateTrade called on " + tradeDTO.toString());
 		Trade trade = tradeRepository.getById(tradeDTO.getTradeId());
@@ -52,6 +55,7 @@ public class TradeServiceImpl implements TradeService {
 
 	@Override
 	public TradeDTO createTrade(TradeDTO tradeDTO) {
+		logger.info("createTrade called with " + tradeDTO.toString());
 		Trade trade = new Trade();
 		trade.update(tradeDTO);
 		tradeRepository.save(trade);
