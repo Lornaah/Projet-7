@@ -13,15 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.dto.RuleNameDTO;
 import com.nnk.springboot.services.ruleName.RuleNameService;
+import com.nnk.springboot.services.user.UserService;
 
 @Controller
 public class RuleNameController {
 	@Autowired
 	RuleNameService ruleNameService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/ruleName/list")
 	public String home(Model model) {
 		model.addAttribute("ruleName", ruleNameService.findAllRuleNames());
+
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "ruleName/list";
 	}
 

@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -81,6 +84,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(UserDTO user) {
 		logger.info("deleteUser called on " + user.toString());
 		userRepository.deleteById(user.getId());
+	}
+
+	@Override
+	public Optional<? extends GrantedAuthority> getRole() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication.getAuthorities().stream().findFirst();
 	}
 
 }

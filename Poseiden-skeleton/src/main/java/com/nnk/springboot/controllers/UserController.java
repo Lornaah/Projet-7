@@ -25,6 +25,10 @@ public class UserController {
 	@RequestMapping("/user/list")
 	public String home(Model model) {
 		model.addAttribute("users", userService.findAllUsers());
+
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "user/list";
 	}
 

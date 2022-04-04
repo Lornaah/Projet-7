@@ -13,16 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.dto.RatingDTO;
 import com.nnk.springboot.services.rating.RatingService;
+import com.nnk.springboot.services.user.UserService;
 
 @Controller
 public class RatingController {
 
 	@Autowired
 	RatingService ratingService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/rating/list")
 	public String home(Model model) {
 		model.addAttribute("rating", ratingService.findAllRatings());
+
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "rating/list";
 	}
 

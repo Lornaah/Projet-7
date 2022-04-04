@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -26,15 +28,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers("/css/*.css", "/image/*").permitAll()
-				.antMatchers("/signup", "/newUser").anonymous().anyRequest().authenticated().and().formLogin()
-				.loginPage("/log").defaultSuccessUrl("/user/list", true).failureUrl("/403").permitAll();
-//				.and().logout()
-//				.logoutUrl("/disconnected").logoutSuccessUrl("/log").permitAll();
+				.antMatchers("/user/*").hasAuthority("ADMIN").anyRequest().authenticated().and().formLogin()
+				.loginPage("/log").successHandler(authenticationSucess()).failureHandler(authenticationFail())
+				.failureUrl("/error").permitAll().and().logout().logoutUrl("/disconnected").logoutSuccessUrl("/log")
+				.permitAll();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationSuccessHandler authenticationSucess() {
+		return new MyAuthenticationSucessHandler();
+	}
+
+	@Bean
+	public AuthenticationFailureHandler authenticationFail() {
+		return new MyAuthenticationSucessHandler();
 	}
 
 }

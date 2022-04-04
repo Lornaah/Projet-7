@@ -13,16 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.dto.BidListDTO;
 import com.nnk.springboot.services.bid.BidListService;
+import com.nnk.springboot.services.user.UserService;
 
 @Controller
 public class BidListController {
 
 	@Autowired
 	BidListService bidListService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/bidList/list")
 	public String home(Model model) {
 		model.addAttribute("bidList", bidListService.findAllBids());
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "bidList/list";
 	}
 

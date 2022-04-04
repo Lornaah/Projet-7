@@ -13,15 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.dto.TradeDTO;
 import com.nnk.springboot.services.trade.TradeService;
+import com.nnk.springboot.services.user.UserService;
 
 @Controller
 public class TradeController {
 	@Autowired
 	TradeService tradeService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/trade/list")
 	public String home(Model model) {
 		model.addAttribute("trade", tradeService.findAllTrades());
+
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "trade/list";
 	}
 

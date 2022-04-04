@@ -13,16 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.dto.CurvePointDTO;
 import com.nnk.springboot.services.curve.CurvePointService;
+import com.nnk.springboot.services.user.UserService;
 
 @Controller
 public class CurveController {
 
 	@Autowired
 	CurvePointService curvePointService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/curvePoint/list")
 	public String home(Model model) {
 		model.addAttribute("curvePoint", curvePointService.findAllCurves());
+		userService.getRole().ifPresent(a -> {
+			model.addAttribute("role", a.getAuthority());
+		});
 		return "curvePoint/list";
 	}
 
