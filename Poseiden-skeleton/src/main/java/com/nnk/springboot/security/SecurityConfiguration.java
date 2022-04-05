@@ -13,12 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.nnk.springboot.services.oAuthUser.oAuthUserServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserDetailsService userDetailsService;
+
+	@Autowired
+	oAuthUserServiceImpl oAuthUserServiceImpl;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -27,11 +32,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/css/*.css", "/image/*").permitAll()
+		http.csrf().disable().authorizeRequests().antMatchers("/css/*.css", "/image/*", "/oauth2/**").permitAll()
 				.antMatchers("/user/*").hasAuthority("ADMIN").anyRequest().authenticated().and().formLogin()
 				.loginPage("/log").successHandler(authenticationSucess()).failureHandler(authenticationFail())
 				.failureUrl("/error").permitAll().and().logout().logoutUrl("/disconnected").logoutSuccessUrl("/log")
-				.permitAll();
+				.permitAll().and().oauth2Login().loginPage("/log").userInfoEndpoint().userService(oAuthUserServiceImpl)
+				.and().successHandler(oAuth2Success());
+	}
+
+	@Bean
+	public OAuthSucessHandler oAuth2Success() {
+		return new OAuthSucessHandler();
 	}
 
 	@Bean

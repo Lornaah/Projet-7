@@ -36,4 +36,13 @@ public class LoginController {
 		mav.setViewName("403");
 		return mav;
 	}
+
+	@GetMapping("login/oauth2/code/github")
+	public ModelAndView logWithGitHub() {
+		ModelAndView mav = new ModelAndView();
+		System.err.println("Coucou GITHUB");
+		mav.setViewName("bidList/list");
+		return mav;
+
+	}
 }
