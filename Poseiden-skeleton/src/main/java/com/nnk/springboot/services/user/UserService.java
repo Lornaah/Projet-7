@@ -22,4 +22,6 @@ public interface UserService extends UserDetailsService {
 
 	public Optional<? extends GrantedAuthority> getRole();
 
+	public boolean userMatchesUserName(String userName);
+
 }

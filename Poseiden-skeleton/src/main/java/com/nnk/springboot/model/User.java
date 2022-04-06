@@ -2,16 +2,21 @@ package com.nnk.springboot.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.nnk.springboot.dto.UserDTO;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "username", "authenticationProvider" }) })
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,12 +30,16 @@ public class User {
 	private String fullname;
 	@NotBlank(message = "Role is mandatory")
 	private String role;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private AuthenticationProvider authenticationProvider;
 
 	public void update(UserDTO userDTO) {
 		this.username = userDTO.getUsername();
 		this.password = userDTO.getPassword();
 		this.fullname = userDTO.getFullname();
 		this.role = userDTO.getRole();
+		this.authenticationProvider = AuthenticationProvider.fromString(userDTO.getAuthenticationProvider());
 	}
 
 	public User(String username, String password, String fullname) {
@@ -38,6 +47,7 @@ public class User {
 		this.password = password;
 		this.fullname = fullname;
 		this.role = "USER";
+		this.authenticationProvider = AuthenticationProvider.LOCAL;
 	}
 
 	public User() {
@@ -83,10 +93,18 @@ public class User {
 		this.role = role;
 	}
 
+	public AuthenticationProvider getAuthenticationProvider() {
+		return authenticationProvider;
+	}
+
+	public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+		this.authenticationProvider = authenticationProvider;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ ", role=" + role + "]";
+				+ ", role=" + role + ", authenticationProvider=" + authenticationProvider + "]";
 	}
 
 }

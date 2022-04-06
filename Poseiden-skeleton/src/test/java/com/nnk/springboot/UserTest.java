@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nnk.springboot.dto.UserDTO;
+import com.nnk.springboot.model.AuthenticationProvider;
 import com.nnk.springboot.services.user.UserService;
 
 @SpringBootTest
@@ -30,6 +31,7 @@ public class UserTest {
 	public void beforeEach() {
 		clearDB.clearDB();
 		userDTO = new UserDTO("Test", "Test123!", "Test Test", "USER");
+		userDTO.setAuthenticationProvider(AuthenticationProvider.LOCAL);
 	}
 
 	@Test

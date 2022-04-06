@@ -2,6 +2,7 @@ package com.nnk.springboot.dto;
 
 import java.util.Objects;
 
+import com.nnk.springboot.model.AuthenticationProvider;
 import com.nnk.springboot.model.User;
 
 public class UserDTO {
@@ -11,6 +12,7 @@ public class UserDTO {
 	private String password;
 	private String fullname;
 	private String role;
+	private String authenticationProvider;
 
 	public UserDTO() {
 	}
@@ -21,6 +23,7 @@ public class UserDTO {
 		this.password = user.getPassword();
 		this.fullname = user.getFullname();
 		this.role = user.getRole();
+		this.authenticationProvider = user.getAuthenticationProvider().toString();
 	}
 
 	public UserDTO(String username, String password, String fullname, String role) {
@@ -28,6 +31,7 @@ public class UserDTO {
 		this.password = password;
 		this.fullname = fullname;
 		this.role = role;
+		authenticationProvider = AuthenticationProvider.LOCAL.toString();
 	}
 
 	public String getRole() {
@@ -70,9 +74,17 @@ public class UserDTO {
 		this.fullname = fullname;
 	}
 
+	public String getAuthenticationProvider() {
+		return authenticationProvider;
+	}
+
+	public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+		this.authenticationProvider = authenticationProvider.toString();
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(fullname, id, password, role, username);
+		return Objects.hash(authenticationProvider, fullname, id, password, role, username);
 	}
 
 	@Override
@@ -84,15 +96,15 @@ public class UserDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDTO other = (UserDTO) obj;
-		return Objects.equals(fullname, other.fullname) && Objects.equals(id, other.id)
-				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
-				&& Objects.equals(username, other.username);
+		return authenticationProvider == other.authenticationProvider && Objects.equals(fullname, other.fullname)
+				&& Objects.equals(id, other.id) && Objects.equals(password, other.password)
+				&& Objects.equals(role, other.role) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ ", role=" + role + "]";
+				+ ", role=" + role + ", authenticationProvider=" + authenticationProvider + "]";
 	}
 
 }

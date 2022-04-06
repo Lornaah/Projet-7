@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
 		return authentication.getAuthorities().stream().findFirst();
 	}
 
+	@Override
+	public boolean userMatchesUserName(String userName) {
+		return userRepository.findByUsername(userName).isPresent();
+	}
+
 }

@@ -32,4 +32,8 @@ public class UserOAuth2 implements OAuth2User {
 	public String getLogin() {
 		return oAuth2User.getAttribute("login");
 	}
+
+	public String getId() {
+		return oAuth2User.getAttribute("id").toString();
+	}
 }
