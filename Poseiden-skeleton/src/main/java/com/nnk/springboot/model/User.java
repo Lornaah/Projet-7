@@ -1,5 +1,6 @@
 package com.nnk.springboot.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@NotBlank(message = "Username is mandatory")
+	@Column(unique = true)
 	private String username;
 	@NotBlank(message = "Password is mandatory")
 	private String password;

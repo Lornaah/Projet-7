@@ -11,6 +11,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import com.nnk.springboot.model.UserOAuth2;
+
 public class OAuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private RedirectStrategy redirect = new DefaultRedirectStrategy();
 
@@ -18,6 +20,8 @@ public class OAuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
+		UserOAuth2 user = (UserOAuth2) authentication.getPrincipal();
+		user.getAttributes().forEach((k, v) -> System.err.println(k + " : " + v));
 		redirect.sendRedirect(request, response, "/bidList/list");
 	}
 
