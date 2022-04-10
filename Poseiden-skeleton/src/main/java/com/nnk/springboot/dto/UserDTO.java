@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.nnk.springboot.model.AuthenticationProvider;
 import com.nnk.springboot.model.User;
+import com.nnk.springboot.model.UserOAuth2;
 
 public class UserDTO {
 
@@ -15,6 +16,14 @@ public class UserDTO {
 	private String authenticationProvider;
 
 	public UserDTO() {
+	}
+
+	public UserDTO(UserOAuth2 user) {
+		this.username = user.getId();
+		this.fullname = user.getName();
+		setAuthenticationProvider(AuthenticationProvider.GITHUB);
+		this.password = "GithubProvider";
+		this.role = "USER";
 	}
 
 	public UserDTO(User user) {

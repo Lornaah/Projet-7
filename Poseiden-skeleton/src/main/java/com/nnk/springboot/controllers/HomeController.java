@@ -16,4 +16,9 @@ public class HomeController {
 		return "redirect:/user/list";
 	}
 
+	@RequestMapping("/403")
+	public String forbidden(Model model) {
+		return "403";
+	}
+
 }

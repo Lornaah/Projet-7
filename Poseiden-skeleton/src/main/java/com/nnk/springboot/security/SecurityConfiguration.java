@@ -32,12 +32,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/css/*.css", "/image/*", "/oauth2/**").permitAll()
+		http.authorizeRequests().antMatchers("/css/*.css", "/image/*", "/oauth2/**", "/403").permitAll()
 				.antMatchers("/user/*").hasAuthority("ADMIN").anyRequest().authenticated().and().formLogin()
 				.loginPage("/log").successHandler(authenticationSucess()).failureHandler(authenticationFail())
-				.failureUrl("/error").permitAll().and().logout().logoutUrl("/disconnected").logoutSuccessUrl("/log")
-				.permitAll().and().oauth2Login().loginPage("/log").userInfoEndpoint().userService(oAuthUserServiceImpl)
-				.and().successHandler(oAuth2Success());
+				.permitAll().and().logout().logoutUrl("/disconnected").logoutSuccessUrl("/log").permitAll().and()
+				.oauth2Login().loginPage("/log").userInfoEndpoint().userService(oAuthUserServiceImpl).and()
+				.successHandler(oAuth2Success());
 	}
 
 	@Bean

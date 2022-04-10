@@ -15,7 +15,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String mailAddress;
 	private String password;
-	private boolean active;
 	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(User user) {
